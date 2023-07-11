@@ -12,24 +12,24 @@ from datetime import date
 Session = sessionmaker(bind=db.engine)
 session = Session()
 
-# open file car_product.csv
+# open file advertisement.csv
 # open with mode 'r'(read)
-with open(file = 'dummy_csv/car_product.csv', mode = 'r') as csvfile:
+with open(file = 'dummy_csv/advertisement.csv', mode = 'r') as csvfile:
     #create object
     csv_dict_reader = csv.DictReader(csvfile)
     
     #loop every row
     for row in csv_dict_reader:
-        car = db.Carproducts(
+        ad = db.Advertisements(
+            row['advertisement_id'],
+            row['title'],
+            row['detail_information'],
+            bool(row['bid_active']),
+            row['user_id'],
             row['product_id'],
-            row['price'],
-            row['model'],
-            row['body_type'],
-            row['brand'],
-            row['year'],
             date.today()
         )
-        session.add(car)
+        session.add(ad)
     session.commit()
     session.close()
         
